@@ -1,4 +1,17 @@
+require "csv"
+
 tasks = []
+
+# ===CSVファイルを読み込み===
+if File.exist?("tasks.csv")
+  CSV.foreach("tasks.csv") do |row|
+    tasks << row[0]
+  end
+  tasks.each_with_index do |task, i|
+    puts "#{i + 1}: #{task}"
+  end
+end
+
 # ===タスクの登録===
 puts "タスクを入力してください。\n終了したいときは「end」を入力してください。"
 
@@ -32,6 +45,13 @@ else
         puts "#{i + 1}: #{task}"
       end
     end
+  end
+end
+
+# ===CSVファイルに保存===
+CSV.open("tasks.csv", "w") do |csv|
+  tasks.each do |task|
+    csv << [task]
   end
 end
 
